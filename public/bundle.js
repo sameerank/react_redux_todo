@@ -110,13 +110,19 @@
 	
 	var _todos_reducer2 = _interopRequireDefault(_todos_reducer);
 	
+	var _todos_middleware = __webpack_require__(215);
+	
+	var _todos_middleware2 = _interopRequireDefault(_todos_middleware);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var RootReducer = (0, _redux.combineReducers)({
 	  todos: _todos_reducer2.default
 	});
 	
-	var Store = (0, _redux.createStore)(RootReducer);
+	var MasterMiddleware = (0, _redux.applyMiddleware)(_todos_middleware2.default);
+	
+	var Store = (0, _redux.createStore)(RootReducer, MasterMiddleware);
 	exports.default = Store;
 
 /***/ },
@@ -23518,6 +23524,81 @@
 	};
 	
 	exports.default = NewTodoForm;
+
+/***/ },
+/* 215 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _local_storage_manager = __webpack_require__(216);
+	
+	var TodosMiddleware = function TodosMiddleware(store) {
+	  return function (next) {
+	    return function (action) {
+	      switch (action.type) {
+	        case "RECEIVE_TODO":
+	          (0, _local_storage_manager.addTodo)(action.todo);
+	          next(action);
+	          break;
+	        default:
+	          next(action);
+	      }
+	    };
+	  };
+	};
+	
+	exports.default = TodosMiddleware;
+
+/***/ },
+/* 216 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var LocalStorageManager = {
+	  getTodos: function getTodos() {
+	    var todosJson = localStorage.getItem("_todos");
+	    return JSON.parse(todosJson) || [];
+	  },
+	  addTodo: function addTodo(todoToAdd) {
+	    var currentTodos = this.getTodos();
+	    currentTodos.push(todoToAdd);
+	    this._saveTodos(currentTodos);
+	  },
+	  toggleTodo: function toggleTodo(id) {
+	    var currentTodos = this.getTodos();
+	    var idx = currentTodos.findIndex(function (todo) {
+	      return todo.id === id;
+	    });
+	    currentTodos[idx].done = !currentTodos[idx].done;
+	    this._saveTodos(currentTodos);
+	  },
+	  deleteTodo: function deleteTodo(id) {
+	    var currentTodos = this.getTodos();
+	    var idx = currentTodos.findIndex(function (todo) {
+	      return todo.id === id;
+	    });
+	    currentTodos.splice(idx, 1);
+	    this._saveTodos(currentTodos);
+	  },
+	  _saveTodos: function _saveTodos(todos) {
+	    var todosJson = JSON.stringify(todos);
+	    localStorage.setItem("_todos", todosJson);
+	  }
+	};
+	
+	// Permanently bind methods
+	var lsm = LocalStorageManager;
+	["addTodo", "toggleTodo", "deleteTodo"].forEach(function (method) {
+	  lsm[method] = lsm[method].bind(lsm);
+	});
+	
+	module.exports = LocalStorageManager;
 
 /***/ }
 /******/ ]);
