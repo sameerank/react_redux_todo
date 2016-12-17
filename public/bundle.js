@@ -64,6 +64,10 @@
 	
 	var _todo_list_container2 = _interopRequireDefault(_todo_list_container);
 	
+	var _new_todo_form_container = __webpack_require__(213);
+	
+	var _new_todo_form_container2 = _interopRequireDefault(_new_todo_form_container);
+	
 	var _todo_actions = __webpack_require__(24);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -75,7 +79,12 @@
 	  return _react2.default.createElement(
 	    _reactRedux.Provider,
 	    { store: _store2.default },
-	    _react2.default.createElement(_todo_list_container2.default, null)
+	    _react2.default.createElement(
+	      'div',
+	      null,
+	      _react2.default.createElement(_todo_list_container2.default, null),
+	      _react2.default.createElement(_new_todo_form_container2.default, null)
+	    )
 	  );
 	};
 	
@@ -23393,6 +23402,94 @@
 	};
 	
 	exports.default = TodoList;
+
+/***/ },
+/* 213 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _reactRedux = __webpack_require__(202);
+	
+	var _new_todo_form = __webpack_require__(214);
+	
+	var _new_todo_form2 = _interopRequireDefault(_new_todo_form);
+	
+	var _todo_actions = __webpack_require__(24);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    handleSubmit: function handleSubmit(todo) {
+	      return dispatch((0, _todo_actions.receiveTodo)(todo));
+	    }
+	  };
+	};
+	
+	var NewTodoFormContainer = (0, _reactRedux.connect)(null, mapDispatchToProps)(_new_todo_form2.default);
+	
+	exports.default = NewTodoFormContainer;
+
+/***/ },
+/* 214 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(26);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	// class NewTodoForm extends React.Component {
+	//   constructor(props){
+	//     super(props);
+	//     this.state = f
+	//   }
+	// }
+	
+	var NewTodoForm = function NewTodoForm(_ref) {
+	  var handleSubmit = _ref.handleSubmit;
+	
+	
+	  var inputDomNode = void 0;
+	
+	  var _handleSubmit = function _handleSubmit(e) {
+	    e.preventDefault();
+	
+	    var todo = {
+	      id: new Date().getTime(),
+	      body: inputDomNode.value,
+	      done: false
+	    };
+	
+	    handleSubmit(todo);
+	    inputDomNode.value = "";
+	  };
+	
+	  return _react2.default.createElement(
+	    "form",
+	    { onSubmit: _handleSubmit },
+	    _react2.default.createElement("input", { type: "text",
+	      ref: function ref(node) {
+	        return inputDomNode = node;
+	      },
+	      placeholder: "New Todo" }),
+	    _react2.default.createElement("input", { type: "submit", value: "Create Todo" })
+	  );
+	};
+	
+	exports.default = NewTodoForm;
 
 /***/ }
 /******/ ]);

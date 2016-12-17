@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import Store from './store/store.js';
 import TodoListContainer from './components/todo_list_container';
+import NewTodoFormContainer from './components/new_todo_form_container';
 import { receiveTodo } from './actions/todo_actions.js'
 
 window.Store = Store;
@@ -10,7 +11,10 @@ window.receiveTodo = receiveTodo;
 
 const Root = () => (
   <Provider store={Store}>
-    <TodoListContainer />
+    <div>
+      <TodoListContainer />
+      <NewTodoFormContainer />
+    </div>
   </Provider>
 );
 
