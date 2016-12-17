@@ -74,6 +74,7 @@
 	
 	window.Store = _store2.default;
 	window.receiveTodo = _todo_actions.receiveTodo;
+	window.toggleTodo = _todo_actions.toggleTodo;
 	
 	var Root = function Root() {
 	  return _react2.default.createElement(
@@ -1352,6 +1353,13 @@
 	    todo: todo
 	  };
 	};
+	
+	var toggleTodo = exports.toggleTodo = function toggleTodo(id) {
+	  return {
+	    type: "TOGGLE_TODO",
+	    id: id
+	  };
+	};
 
 /***/ },
 /* 25 */
@@ -1362,6 +1370,9 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+	
 	var TodosReducer = function TodosReducer() {
 	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 	  var action = arguments[1];
@@ -1369,6 +1380,13 @@
 	  switch (action.type) {
 	    case "RECEIVE_TODO":
 	      return state.concat(action.todo);
+	    case "TOGGLE_TODO":
+	      var idx = state.findIndex(function (todo) {
+	        return todo.id === action.id;
+	      });
+	      var status = !state[idx].done;
+	      var newTodo = Object.assign({}, state[idx], { done: status });
+	      return [].concat(_toConsumableArray(state.slice(0, idx)), [newTodo], _toConsumableArray(state.slice(idx + 1)));
 	    default:
 	      return state;
 	  }
@@ -23328,6 +23346,8 @@
 	
 	var _todo_list2 = _interopRequireDefault(_todo_list);
 	
+	var _todo_actions = __webpack_require__(24);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var mapStateToProps = function mapStateToProps(state) {
@@ -23336,7 +23356,15 @@
 	  };
 	};
 	
-	var TodoListContainer = (0, _reactRedux.connect)(mapStateToProps)(_todo_list2.default);
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    toggleTodo: function toggleTodo(id) {
+	      return dispatch((0, _todo_actions.toggleTodo)(id));
+	    }
+	  };
+	};
+	
+	var TodoListContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_todo_list2.default);
 	
 	exports.default = TodoListContainer;
 

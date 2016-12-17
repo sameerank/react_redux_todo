@@ -4,10 +4,11 @@ import { Provider } from 'react-redux';
 import Store from './store/store.js';
 import TodoListContainer from './components/todo_list_container';
 import NewTodoFormContainer from './components/new_todo_form_container';
-import { receiveTodo } from './actions/todo_actions.js'
+import { receiveTodo, toggleTodo } from './actions/todo_actions.js'
 
 window.Store = Store;
 window.receiveTodo = receiveTodo;
+window.toggleTodo = toggleTodo;
 
 const Root = () => (
   <Provider store={Store}>
