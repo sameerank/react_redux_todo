@@ -23586,6 +23586,10 @@
 	          (0, _local_storage_manager.deleteTodo)(action.id);
 	          next(action);
 	          break;
+	        case "TOGGLE_TODO":
+	          (0, _local_storage_manager.toggleTodo)(action.id);
+	          next(action);
+	          break;
 	        default:
 	          next(action);
 	      }

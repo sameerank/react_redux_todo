@@ -1,4 +1,4 @@
-import { addTodo, getTodos, deleteTodo } from '../util/local_storage_manager.js';
+import { addTodo, getTodos, deleteTodo, toggleTodo } from '../util/local_storage_manager.js';
 import { receiveAllTodos } from '../actions/todo_actions.js';
 
 const TodosMiddleware = store => next => action => {
@@ -13,6 +13,10 @@ const TodosMiddleware = store => next => action => {
       break;
     case "DELETE_TODO":
       deleteTodo(action.id);
+      next(action);
+      break;
+    case "TOGGLE_TODO":
+      toggleTodo(action.id);
       next(action);
       break;
     default:
