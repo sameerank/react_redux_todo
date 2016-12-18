@@ -1,9 +1,18 @@
-import { addTodo } from '../util/local_storage_manager.js';
+import { addTodo, getTodos, deleteTodo } from '../util/local_storage_manager.js';
+import { receiveAllTodos } from '../actions/todo_actions.js';
 
 const TodosMiddleware = store => next => action => {
   switch (action.type) {
     case "RECEIVE_TODO":
       addTodo(action.todo);
+      next(action);
+      break;
+    case "REQUEST_ALL_TODOS":
+      const allTodos = getTodos();
+      store.dispatch(receiveAllTodos(allTodos));
+      break;
+    case "DELETE_TODO":
+      deleteTodo(action.id);
       next(action);
       break;
     default:

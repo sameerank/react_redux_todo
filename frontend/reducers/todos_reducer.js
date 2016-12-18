@@ -3,10 +3,15 @@ const TodosReducer = (state = [], action) => {
     case "RECEIVE_TODO":
       return state.concat(action.todo);
     case "TOGGLE_TODO":
-      const idx = state.findIndex( todo => todo.id === action.id );
+      var idx = state.findIndex( todo => todo.id === action.id );
       const status = !state[idx].done;
       const newTodo = Object.assign({}, state[idx], {done: status});
       return [...state.slice(0, idx), newTodo, ...state.slice(idx + 1)];
+    case "RECEIVE_ALL_TODOS":
+      return action.todos;
+    case "DELETE_TODO":
+      var idx = state.findIndex( todo => todo.id === action.id );
+      return [...state.slice(0, idx), ...state.slice(idx + 1)];
     default:
       return state;
   }

@@ -92,6 +92,7 @@
 	document.addEventListener('DOMContentLoaded', function () {
 	  var root = document.getElementById('root');
 	  _reactDom2.default.render(_react2.default.createElement(Root, null), root);
+	  _store2.default.dispatch((0, _todo_actions.requestAllTodos)());
 	});
 
 /***/ },
@@ -1366,6 +1367,26 @@
 	    id: id
 	  };
 	};
+	
+	var requestAllTodos = exports.requestAllTodos = function requestAllTodos() {
+	  return {
+	    type: "REQUEST_ALL_TODOS"
+	  };
+	};
+	
+	var receiveAllTodos = exports.receiveAllTodos = function receiveAllTodos(todos) {
+	  return {
+	    type: "RECEIVE_ALL_TODOS",
+	    todos: todos
+	  };
+	};
+	
+	var deleteTodo = exports.deleteTodo = function deleteTodo(id) {
+	  return {
+	    type: "DELETE_TODO",
+	    id: id
+	  };
+	};
 
 /***/ },
 /* 25 */
@@ -1393,6 +1414,13 @@
 	      var status = !state[idx].done;
 	      var newTodo = Object.assign({}, state[idx], { done: status });
 	      return [].concat(_toConsumableArray(state.slice(0, idx)), [newTodo], _toConsumableArray(state.slice(idx + 1)));
+	    case "RECEIVE_ALL_TODOS":
+	      return action.todos;
+	    case "DELETE_TODO":
+	      var idx = state.findIndex(function (todo) {
+	        return todo.id === action.id;
+	      });
+	      return [].concat(_toConsumableArray(state.slice(0, idx)), _toConsumableArray(state.slice(idx + 1)));
 	    default:
 	      return state;
 	  }
@@ -23366,6 +23394,9 @@
 	  return {
 	    toggleTodo: function toggleTodo(id) {
 	      return dispatch((0, _todo_actions.toggleTodo)(id));
+	    },
+	    deleteTodo: function deleteTodo(id) {
+	      return dispatch((0, _todo_actions.deleteTodo)(id));
 	    }
 	  };
 	};
@@ -23529,7 +23560,7 @@
 /* 215 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -23537,12 +23568,22 @@
 	
 	var _local_storage_manager = __webpack_require__(216);
 	
+	var _todo_actions = __webpack_require__(24);
+	
 	var TodosMiddleware = function TodosMiddleware(store) {
 	  return function (next) {
 	    return function (action) {
 	      switch (action.type) {
 	        case "RECEIVE_TODO":
 	          (0, _local_storage_manager.addTodo)(action.todo);
+	          next(action);
+	          break;
+	        case "REQUEST_ALL_TODOS":
+	          var allTodos = (0, _local_storage_manager.getTodos)();
+	          store.dispatch((0, _todo_actions.receiveAllTodos)(allTodos));
+	          break;
+	        case "DELETE_TODO":
+	          (0, _local_storage_manager.deleteTodo)(action.id);
 	          next(action);
 	          break;
 	        default:
