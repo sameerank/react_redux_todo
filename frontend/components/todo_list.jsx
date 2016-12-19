@@ -13,12 +13,14 @@ const TodoList = ({todos, filter, toggleTodo = function(){}, deleteTodo = functi
     deleteTodo(id);
   };
 
+  var filterTodos = {
+    ALL: todos,
+    COMPLETE: todos.filter( todo => todo.done === true ),
+    INCOMPLETE: todos.filter( todo => todo.done === false )
+  };
+
   const _generateList = () => (
-   {
-      ALL: () => todos,
-      COMPLETE: () => todos.filter( todo => todo.done === true ),
-      INCOMPLETE: () => todos.filter( todo => todo.done === false )
-    }[filter]().map( todo => (
+   filterTodos[filter].map( todo => (
       <li key={todo.id}
           className={_getClassName(todo.done)}
           onClick={() => toggleTodo(todo.id)}>
