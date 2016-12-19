@@ -20,7 +20,7 @@ const TodoList = ({todos, filter, toggleTodo = function(){}, deleteTodo = functi
   };
 
   const _generateList = () => (
-   filterTodos[filter].map( todo => (
+    filterTodos[filter].map( todo => (
       <li key={todo.id}
           className={_getClassName(todo.done)}
           onClick={() => toggleTodo(todo.id)}>

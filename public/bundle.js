@@ -23340,7 +23340,6 @@
 	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "ALL";
 	  var action = arguments[1];
 	
-	  console.log(state);
 	  switch (action.type) {
 	    case "TOGGLE_FILTER":
 	      switch (state) {

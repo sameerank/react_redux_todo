@@ -1,5 +1,4 @@
 const FiltersReducer = (state = "ALL", action) => {
-  console.log(state);
   switch(action.type) {
     case "TOGGLE_FILTER":
       switch(state) {
