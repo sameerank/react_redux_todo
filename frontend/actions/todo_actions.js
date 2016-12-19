@@ -22,7 +22,7 @@ export const deleteTodo = id => ({
   id
 });
 
-export const toggleFilter = () => ({
+export const toggleFilter = filter => ({
   type: "TOGGLE_FILTER",
-  filter: "COMPLETE"
+  filter
 });

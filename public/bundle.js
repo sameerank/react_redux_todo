@@ -23320,15 +23320,6 @@
 	        return todo.id === action.id;
 	      });
 	      return [].concat(_toConsumableArray(state.slice(0, idx)), _toConsumableArray(state.slice(idx + 1)));
-	    case "TOGGLE_FILTER":
-	      switch (action.filter) {
-	        case "COMPLETE":
-	          return state.filter(function (todo) {
-	            return todo.done === true;
-	          });
-	        default:
-	          return state;
-	      }
 	    default:
 	      return state;
 	  }
@@ -23349,9 +23340,19 @@
 	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "ALL";
 	  var action = arguments[1];
 	
+	  console.log(state);
 	  switch (action.type) {
 	    case "TOGGLE_FILTER":
-	      return action.filter;
+	      switch (state) {
+	        case "ALL":
+	          return "COMPLETE";
+	        case "COMPLETE":
+	          return "INCOMPLETE";
+	        case "INCOMPLETE":
+	          return "ALL";
+	        default:
+	          return state;
+	      };
 	    default:
 	      return state;
 	  }
@@ -23491,10 +23492,10 @@
 	  };
 	};
 	
-	var toggleFilter = exports.toggleFilter = function toggleFilter() {
+	var toggleFilter = exports.toggleFilter = function toggleFilter(filter) {
 	  return {
 	    type: "TOGGLE_FILTER",
-	    filter: "COMPLETE"
+	    filter: filter
 	  };
 	};
 
@@ -23533,8 +23534,8 @@
 	    deleteTodo: function deleteTodo(id) {
 	      return dispatch((0, _todo_actions.deleteTodo)(id));
 	    },
-	    toggleFilter: function toggleFilter() {
-	      return dispatch((0, _todo_actions.toggleFilter)());
+	    toggleFilter: function toggleFilter(filter) {
+	      return dispatch((0, _todo_actions.toggleFilter)(filter));
 	    }
 	  };
 	};
@@ -23724,7 +23725,9 @@
 	    null,
 	    _react2.default.createElement(
 	      "a",
-	      { href: "#", onClick: props.toggleFilter },
+	      { href: "#", onClick: function onClick() {
+	          return props.toggleFilter(props.filter);
+	        } },
 	      props.filter
 	    )
 	  );

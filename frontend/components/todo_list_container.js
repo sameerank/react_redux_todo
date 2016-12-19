@@ -10,7 +10,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   toggleTodo: id => dispatch(toggleTodo(id)),
   deleteTodo: id => dispatch(deleteTodo(id)),
-  toggleFilter: () => dispatch(toggleFilter())
+  toggleFilter: filter => dispatch(toggleFilter(filter))
 });
 
 const TodoListContainer = connect(mapStateToProps, mapDispatchToProps)(TodoList);

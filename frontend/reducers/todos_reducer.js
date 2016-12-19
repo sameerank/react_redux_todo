@@ -12,13 +12,6 @@ const TodosReducer = (state = [], action) => {
     case "DELETE_TODO":
       var idx = state.findIndex( todo => todo.id === action.id );
       return [...state.slice(0, idx), ...state.slice(idx + 1)];
-    case "TOGGLE_FILTER":
-      switch (action.filter) {
-        case "COMPLETE":
-          return state.filter( todo => todo.done === true );
-        default:
-          return state;
-        }
     default:
       return state;
   }
