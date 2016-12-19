@@ -23587,7 +23587,21 @@
 	  };
 	
 	  var _generateList = function _generateList() {
-	    return todos.map(function (todo) {
+	    return {
+	      ALL: function ALL() {
+	        return todos;
+	      },
+	      COMPLETE: function COMPLETE() {
+	        return todos.filter(function (todo) {
+	          return todo.done === true;
+	        });
+	      },
+	      INCOMPLETE: function INCOMPLETE() {
+	        return todos.filter(function (todo) {
+	          return todo.done === false;
+	        });
+	      }
+	    }[filter]().map(function (todo) {
 	      return _react2.default.createElement(
 	        'li',
 	        { key: todo.id,

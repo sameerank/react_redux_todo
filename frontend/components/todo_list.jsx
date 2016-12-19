@@ -14,7 +14,11 @@ const TodoList = ({todos, filter, toggleTodo = function(){}, deleteTodo = functi
   };
 
   const _generateList = () => (
-    todos.map( todo => (
+   {
+      ALL: () => todos,
+      COMPLETE: () => todos.filter( todo => todo.done === true ),
+      INCOMPLETE: () => todos.filter( todo => todo.done === false )
+    }[filter]().map( todo => (
       <li key={todo.id}
           className={_getClassName(todo.done)}
           onClick={() => toggleTodo(todo.id)}>
