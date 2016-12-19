@@ -1,6 +1,8 @@
 import React from 'react';
 
-const TodoList = ({todos, toggleTodo = function(){}, deleteTodo = function(){} }) => {
+import FilterButton from './filter_button'
+
+const TodoList = ({todos, filter, toggleTodo = function(){}, deleteTodo = function(){}, toggleFilter = function(){} }) => {
 
   const _getClassName = done => (
     done ? "done" : ""
@@ -24,6 +26,7 @@ const TodoList = ({todos, toggleTodo = function(){}, deleteTodo = function(){} }
 
   return (
     <ul id="todoList">
+      <FilterButton filter={filter} toggleFilter={toggleFilter}></FilterButton>
       {_generateList()}
     </ul>
   );

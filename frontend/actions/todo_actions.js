@@ -20,4 +20,9 @@ export const receiveAllTodos = todos => ({
 export const deleteTodo = id => ({
   type: "DELETE_TODO",
   id
-})
+});
+
+export const toggleFilter = () => ({
+  type: "TOGGLE_FILTER",
+  filter: "COMPLETE"
+});
